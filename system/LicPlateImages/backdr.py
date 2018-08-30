@@ -1,0 +1,10 @@
+import tkinter as Tk
+root = Tk.Tk()
+background_image=Tk.PhotoImage(file="C:/Desktop/1.png")
+background_label = Tk.Label(root, image=background_image)
+background_label.place(x=0, y=0, relwidth=1, relheight=1)
+root.wm_geometry("600x400+20+40")
+root.title('Menu')
+playButton = Tk.Button(root, text='Play', command=root.destroy)
+playButton.pack()
+root.mainloop()
