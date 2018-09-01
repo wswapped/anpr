@@ -91,13 +91,13 @@ def videoLoop():
 
 def GUI():
 	global stopEvent, thread
-	btn = Button(root, bg="grey" ,fg="black",width=19, height=0,font=("italic",10,"bold"),activebackground="turquoise", text='Load-image', command=
-		open_img)
-	btn.pack( anchor=NW)
+	
+	# btn.pack(anchor=NW)
 
 	#image capturing button
-	captureBtn = tk.Button(root, text="Capture!", command=takeSnapshot)
-	captureBtn.pack(side="bottom", fill="both", expand="yes", padx=10, pady=10)
+	captureBtn = Button(root, bg="grey" ,fg="black",width=19, height=0,font=("italic",10,"bold"),activebackground="turquoise", text='Capture', command=
+		takeSnapshot)
+	captureBtn.pack(side="bottom", fill="both", padx=1, pady=1)
 
 	# start a thread that constantly pools the video sensor for the most recently read frame
 	stopEvent = threading.Event()
@@ -148,25 +148,8 @@ def findPlate(imagePath):
 
 
 
-frame2 = Frame(root, bg = "red",width=4)
+frame2 = Frame(root, bg = "#eee",width=4)
 frame2.pack(anchor=NW)
-
-label = Label(frame2, text = 'Manual Overload', fg = 'white',bg ='red', font = ( 'bold',10,'italic'))
-label.pack(side = TOP)
-
-
-btn = Button(frame2,bg="black" ,width=4, height=0,font=("italic",10,"bold"),fg="light green",activebackground="turquoise", text='open ', command=open_img)
-btn.pack(pady = 20, padx = 20,side='left')
-
-btn = Button(frame2,bg="black" ,width=4, height=0,font=("italic",10,"bold"),fg="red",activebackground="turquoise", text='Close', command=open_img)
-btn.pack( pady = 20, padx = 20,side="right")
-#def callback1():
-	#cmd = 'python main.py'
-
-	#it will execute script which runs only `function1`
-	# output = subprocess.check_output(cmd, shell=True)
-
-	# lbl['text'] = output.strip()
 
 #entry of the program
 
