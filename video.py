@@ -2,7 +2,7 @@
 from __future__ import print_function
 from PIL import Image
 from PIL import ImageTk
-import tkinter as tki
+import tknter as tk
 import threading
 import datetime
 import imutils
@@ -21,12 +21,12 @@ class video:
 		self.stopEvent = None
  
 		# initialize the root window and image panel
-		self.root = tki.Tk()
+		self.root = tk.Tk()
 		self.panel = None
 
 		# create a button, that when pressed, will take the current
 		# frame and save it to file
-		btn = tki.Button(self.root, text="Capture!", command=self.takeSnapshot)
+		btn = tk.Button(self.root, text="Capture!", command=self.takeSnapshot)
 		btn.pack(side="bottom", fill="both", expand="yes", padx=10, pady=10)
  
 		# start a thread that constantly pools the video sensor for
@@ -42,7 +42,7 @@ class video:
 	def videoLoop(self):
 		# DISCLAIMER:
 		# try/except statement is a pretty ugly hack to get around
-		# a RunTime error that Tkinter throws due to threading
+		# a RunTime error that tknter throws due to threading
 		try:
 			# keep looping over frames until we are instructed to stop
 			while not self.stopEvent.is_set():
@@ -60,7 +60,7 @@ class video:
 		
 				# if the panel is not None, we need to initialize it
 				if self.panel is None:
-					self.panel = tki.Label(image=image)
+					self.panel = tk.Label(image=image)
 					self.panel.image = image
 					self.panel.pack(side="left", padx=10, pady=10)
 		
