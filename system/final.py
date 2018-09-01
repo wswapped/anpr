@@ -47,7 +47,9 @@ def handleWindowClose():
 		# the quit process to continue
 		print("[INFO] closing...")
 		stopEvent.set()
-		vs.stop()
+
+		#stoping camera from recoding
+		vs.stream.release()
 		root.destroy()
 		exit()
 
