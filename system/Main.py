@@ -98,6 +98,58 @@ def detectCar(imagePath):
 	return carStatus
 # end main
 
+
+def findPlates(imagePath):
+	#path = filedialog.askopenfilename(title='open')
+	carStatus = ""
+	# attempt KNN training
+	blnKNNTrainingSuccessful = DetectChars.loadKNNDataAndTrainKNN()
+
+	# if KNN training was not successful
+	if blnKNNTrainingSuccessful == False:
+		return False
+
+	imgOriginalScene  = cv2.imread(imagePath) 
+	# if image was not read successfully
+	if imgOriginalScene is None:
+		return False
+
+	listOfPossiblePlates = DetectPlates.detectPlatesInScene(imgOriginalScene)           # detect plates
+
+	listOfPossiblePlates = DetectChars.detectCharsInPlates(listOfPossiblePlates)        # detect chars in plates
+
+	# if no plates were found
+	if len(listOfPossiblePlates) == 0:                 
+		# inform user no plates were found
+		return False
+	else:
+		# if we get in here list of possible plates has at leat one plate  sort the list of possible plates in DESCENDING order (most number of chars to least number of chars)
+		listOfPossiblePlates.sort(key = lambda possiblePlate: len(possiblePlate.strChars), reverse = True)
+
+		# suppose the plate with the most recognized chars (the first plate in sorted by string length descending order) is the actual plate
+		licPlate = listOfPossiblePlates[0]
+
+		if len(licPlate.strChars) == 0:
+			# if no chars were found in the plate
+			# print ("\nno characters were detected\n\n")
+			return  False
+
+		licensePlateText = licPlate.strChars
+
+		#checking plate on server
+		serverAddress = "http://localhost/Recognition/api.php"
+		requestData = requests.get(serverAddress+"?license="+licensePlateText)
+		returnText = requestData.text
+		if returnText == 'false':
+			carStatus = "\n UNAUTHORISED CAR!\n\n" +licensePlateText
+			
+		elif returnText == 'true':
+			carStatus = "\n AUTHORISED CAR!\n\n" +licensePlateText				                                    # hold windows open until user presses a key
+
+	return carStatus
+# end main
+
+
 ###################################################################################################
 def drawRedRectangleAroundPlate(imgOriginalScene, licPlate):
 

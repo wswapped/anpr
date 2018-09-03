@@ -54,7 +54,7 @@ def handleWindowClose():
 		exit()
 
 def videoLoop():
-	global currentFrame, stopEvent, livePanel
+	global currentFrame, stopEvent, livePanel, panel
 	# DISCLAIMER:
 	# try/except statement is a pretty ugly hack to get around
 	# a RunTime error that tknter throws due to threading
@@ -67,6 +67,26 @@ def videoLoop():
 			# have a maximum width of 300 pixels
 			currentFrame = vs.read()
 			currentFrame = imutils.resize(currentFrame, width=300)
+
+			outputPath = 'plates'
+			filename = "current.jpg"
+			imagePath = os.path.sep.join((outputPath, filename))
+			# save the file
+			cv2.imwrite(imagePath, currentFrame.copy())
+
+			foundPlates = Main.findPlates(imagePath)
+			# print((foundPlates == False))
+			if(foundPlates != False):	
+				print(foundPlates)
+				img = Image.open(imagePath)
+				img = img.resize((470, 350), Image.ANTIALIAS)
+				img = ImageTk.PhotoImage(img)
+				panel.destroy()
+				panel = Label(root, image=img)
+				panel.image = img
+				panel.pack(anchor=NW)
+				lbl['text'] = foundPlates
+				time.sleep(5)
 	
 			# OpenCV represents images in BGR order; however PIL
 			# represents images in RGB order, so we need to swap
